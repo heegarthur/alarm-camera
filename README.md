@@ -8,3 +8,5 @@ https://github.com/heegarthur/alarm-camera/blob/main/main.py
 ```
 
 if you want to use the website, you got to host it yourself
+
+don't forget to also download the alarm.wav file
