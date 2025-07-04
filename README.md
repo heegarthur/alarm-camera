@@ -7,4 +7,4 @@ python file for the better app:
 https://github.com/heegarthur/alarm-camera/blob/main/main.py
 ```
 
-website: https://heegarthur.github.io/alarm-camera/
+if you want to use the website, you got to host it yourself
