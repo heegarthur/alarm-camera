@@ -13,16 +13,15 @@ startBtn.addEventListener('click', async () => {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         video.srcObject = stream;
 
-        // wacht tot video een frame heeft
         video.onloadedmetadata = () => {
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             startBtn.style.display = 'none';
-            checkMotion(); // start direct na klik én na videoload
+            checkMotion(); 
         };
     } catch (err) {
         console.error("Camera access denied:", err);
-        statusText.textContent = "Camera toegang geweigerd.";
+        statusText.textContent = "Camera error.";
     }
 });
 
@@ -38,7 +37,7 @@ function checkMotion() {
         frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
     } catch (e) {
         console.warn("Canvas read blocked:", e);
-        return setTimeout(checkMotion, 100); // probeer opnieuw later
+        return setTimeout(checkMotion, 100); 
     }
 
     if (prevFrame) {
@@ -53,13 +52,13 @@ function checkMotion() {
         console.log("Pixel diff:", diff);
 
         if (diff > 10000) {
-            statusText.textContent = "Status: beweging gedetecteerd";
+            statusText.textContent = "Status: movement detected";
             if (!playing) {
                 alarm.play().catch(err => console.warn("Alarm play blocked", err));
                 playing = true;
             }
         } else {
-            statusText.textContent = "Status: geen beweging";
+            statusText.textContent = "Status: no movement";
         }
     }
 
