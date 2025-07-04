@@ -32,7 +32,7 @@ function checkMotion() {
             const gray2 = 0.2989 * prevFrame.data[i] + 0.5870 * prevFrame.data[i + 1] + 0.1140 * prevFrame.data[i + 2];
             diff += Math.abs(gray1 - gray2);
         }
-        if (diff > 900000) {
+        if (diff > 700000) {
             statusText.textContent = "Status: movement detected";
             if (!playing) {
                 alarm.play();
