@@ -12,7 +12,7 @@ startBtn.addEventListener('click', () => {
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(stream => {
             video.srcObject = stream;
-            startBtn.style.display = 'none'; 
+            startBtn.style.display = 'none';
             requestAnimationFrame(checkMotion);
         })
         .catch(err => {
@@ -35,7 +35,6 @@ function checkMotion() {
             const gray1 = 0.2989 * frame.data[i] + 0.5870 * frame.data[i + 1] + 0.1140 * frame.data[i + 2];
             const gray2 = 0.2989 * prevFrame.data[i] + 0.5870 * prevFrame.data[i + 1] + 0.1140 * prevFrame.data[i + 2];
             const delta = Math.abs(gray1 - gray2);
-
             if (delta > 30) {
                 diff++;
             }
