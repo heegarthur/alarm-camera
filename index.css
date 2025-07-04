@@ -3,6 +3,10 @@ textarea, input {
 }
 body{
     background: linear-gradient(90deg, #000000, #f7f7f7);
+    margin: auto;
+    width: 50%;
+    align-items: center;
+    text-align: center;
 }
 video,
 canvas {
