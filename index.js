@@ -14,7 +14,7 @@ navigator.mediaDevices.getUserMedia({ video: true })
     })
     .catch(err => {
         console.error("camera permission denied", err);
-        statusText.textContent = "can't open camera.";
+        statusText.textContent = "Can't open camera.";
     });
 
 alarm.onended = () => {
@@ -30,9 +30,17 @@ function checkMotion() {
         for (let i = 0; i < frame.data.length; i += 4) {
             const gray1 = 0.2989 * frame.data[i] + 0.5870 * frame.data[i + 1] + 0.1140 * frame.data[i + 2];
             const gray2 = 0.2989 * prevFrame.data[i] + 0.5870 * prevFrame.data[i + 1] + 0.1140 * prevFrame.data[i + 2];
-            diff += Math.abs(gray1 - gray2);
+            const delta = Math.abs(gray1 - gray2);
+
+            if (delta > 30) {
+                diff++;
+            }
         }
-        if (diff > 700000) {
+
+        // Voor debuggen:
+        console.log("Pixel diff:", diff);
+
+        if (diff > 10000) {
             statusText.textContent = "Status: movement detected";
             if (!playing) {
                 alarm.play();
