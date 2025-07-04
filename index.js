@@ -1,56 +1,21 @@
-const video = document.getElementById('video');
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-const statusText = document.getElementById('status');
-const alarm = document.getElementById('alarm');
+<!DOCTYPE html>
+<html lang="en">
 
-let prevFrame = null;
-let playing = false;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>alarm camera</title>
 
-navigator.mediaDevices.getUserMedia({ video: true })
-    .then(stream => {
-        video.srcObject = stream;
-        requestAnimationFrame(checkMotion);
-    })
-    .catch(err => {
-        console.error("camera permission denied", err);
-        statusText.textContent = "Can't open camera.";
-    });
+</head>
 
-alarm.onended = () => {
-    playing = false;
-};
+<body>
+    <h2 id="status">Status: no movement</h2>
+    <button id="startBtn">Start camera</button>
+    <video id="video" autoplay playsinline width="640" height="480"></video>
+    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+    <audio id="alarm" src="alarm.wav" preload="auto"></audio>
+    <script src="index.js"></script>
+    <link href="index.css" rel="stylesheet">
+</body>
 
-function checkMotion() {
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-    if (prevFrame) {
-        let diff = 0;
-        for (let i = 0; i < frame.data.length; i += 4) {
-            const gray1 = 0.2989 * frame.data[i] + 0.5870 * frame.data[i + 1] + 0.1140 * frame.data[i + 2];
-            const gray2 = 0.2989 * prevFrame.data[i] + 0.5870 * prevFrame.data[i + 1] + 0.1140 * prevFrame.data[i + 2];
-            const delta = Math.abs(gray1 - gray2);
-
-            if (delta > 30) {
-                diff++;
-            }
-        }
-
-        // Voor debuggen:
-        console.log("Pixel diff:", diff);
-
-        if (diff > 10000) {
-            statusText.textContent = "Status: movement detected";
-            if (!playing) {
-                alarm.play();
-                playing = true;
-            }
-        } else {
-            statusText.textContent = "Status: no movement detected";
-        }
-    }
-
-    prevFrame = frame;
-    requestAnimationFrame(checkMotion);
-}
+</html>
